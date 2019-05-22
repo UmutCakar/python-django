@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <hr>
+    <form action="addTodo" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="formGroupExampleInput">Başlık</label>
+            <input type="text" name="title" class="form-control" id="formGroupExampleInput" placeholder="Başlığı giriniz...">
+        </div>
+        <button type="submit" class="btn btn-success">Ekle</button>
+    </form>
+    <hr>
+    {% if todos %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Başlık</th>
+                    <th scope="col">Durum</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                <tr>
+                    <th scope="row">{{ todo.id }}</th>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.completed }}</td>
+                    <td><a href="/update/{{ todo.id }}" class="btn btn-primary">Güncelle</a></td>
+                    <td><a href="/delete/{{ todo.id }}" class="btn btn-danger">Sil</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-danger">
+                <span>Herhangi bir todo yoktur.</span>
+            </div>
+        {% endif %}
+{% endblock %}
